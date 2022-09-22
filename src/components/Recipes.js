@@ -19,7 +19,7 @@ const Recipes = () => {
             headers: new Headers({ 'Content-Type': 'application/json' }),
         };
 
-        await fetch('http://localhost:3001/recipes/', opts)
+        await fetch('/recipes/', opts)
             .then((res) => res.text())
             .then((text) => {
                 setRecipesArr(JSON.parse(text));
