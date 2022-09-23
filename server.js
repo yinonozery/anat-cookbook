@@ -4,8 +4,16 @@ const express = require('express'),
     path = require('path');
 require('./server/db/mongoose');
 
-const port = process.env.PORT;
+const PORT = process.env.PORT;
 const app = express();
+
+app.use(express.static(path.join(__dirname, 'build')));
+
+app.use(require('./server/routes/routes'));
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname + '/build/index.html'));
+});
 
 app.use(
     cors({
@@ -21,6 +29,6 @@ app.use('/css', express.static(path.join(__dirname, 'src/css')));
 app.use('/assets', express.static(path.join(__dirname, 'src/assets')));
 app.use('/', routers);
 
-const server = app.listen(port, () => {
+const server = app.listen(PORT, () => {
     console.log('listening on port %s...', server.address().port);
 });
