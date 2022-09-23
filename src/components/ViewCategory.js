@@ -16,7 +16,7 @@ const ViewCategory = () => {
         };
 
         await fetch(
-            `http://localhost:3001/categories/${encodeURIComponent(name)}`,
+            `/data/categories/${encodeURIComponent(name)}`,
             opts
         )
             .then((res) => res.text())

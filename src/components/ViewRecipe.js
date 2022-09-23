@@ -29,7 +29,7 @@ const ViewRecipe = () => {
             headers: new Headers({ 'Content-Type': 'application/json' }),
         };
 
-        await fetch(`http://localhost:3001/recipe/${id}`, opts)
+        await fetch(`/data/recipe/${id}`, opts)
             .then((res) => res.text())
             .then((text) => {
                 setRecipe(JSON.parse(text));

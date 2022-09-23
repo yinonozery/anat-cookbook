@@ -5,12 +5,12 @@ const express = require('express'),
 var router = express.Router();
 
 // Recipes
-router.get('/recipe/:id', recipeRoutes.getRecipe);
-router.get('/recipes/', recipeRoutes.getRecipes);
-router.post('/recipe/', recipeRoutes.createRecipe);
+router.get('/data/recipe/:id', recipeRoutes.getRecipe);
+router.get('/data/recipes/', recipeRoutes.getRecipes);
+router.post('/data/recipe/', recipeRoutes.createRecipe);
 
 // Categories
-router.get('/categories/', categoriesRoutes.getCategories);
-router.get('/categories/:name', categoriesRoutes.getCategory);
+router.get('/data/categories/', categoriesRoutes.getCategories);
+router.get('/data/categories/:name', categoriesRoutes.getCategory);
 
 module.exports = router;

@@ -19,10 +19,11 @@ const Recipes = () => {
             headers: new Headers({ 'Content-Type': 'application/json' }),
         };
 
-        await fetch('/recipes/', opts)
+        await fetch('/data/recipes/', opts)
             .then((res) => res.text())
             .then((text) => {
                 setRecipesArr(JSON.parse(text));
+                console.log(JSON.parse(text));
             });
         setIsLoading(false);
     };
