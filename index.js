@@ -32,7 +32,7 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '/client/public/', 'index.html'));
 });
 
-const PORT = process.env.port || 3000;
+const PORT = process.env.PORT || 3000;
 const server = app.listen(PORT, () => {
     console.log('listening on port %s...', server.address().port);
 });
