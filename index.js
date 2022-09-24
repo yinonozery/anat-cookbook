@@ -1,6 +1,5 @@
 const express = require('express'),
     cors = require('cors'),
-    routers = require('./routes/routes.js'),
     path = require('path'),
     recipeRoutes = require('./routes/recipes'),
     //ingredientRoutes = require('./ingredients'),
