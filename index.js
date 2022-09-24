@@ -8,7 +8,7 @@ require('./db/mongoose');
 
 const app = express();
 var router = express.Router();
-router.get('/data/recipes/', recipeRoutes.getRecipes);
+app.get('/data/recipes/', recipeRoutes.getRecipes);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
