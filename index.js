@@ -27,10 +27,10 @@ app.use(
     })
 );
 
-app.use(express.static(path.join(__dirname, '/client/build')));
+app.use(express.static(path.join(__dirname, '/client/public')));
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '/client/build', 'index.html'));
+    res.sendFile(path.join(__dirname, '/client/public/', 'index.html'));
 });
 
 const PORT = process.env.port || 3000;
