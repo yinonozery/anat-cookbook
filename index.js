@@ -1,7 +1,10 @@
 const express = require('express'),
     cors = require('cors'),
     routers = require('./routes/routes.js'),
-    path = require('path');
+    path = require('path'),
+    recipeRoutes = require('./routes/recipes'),
+    //ingredientRoutes = require('./ingredients'),
+    categoriesRoutes = require('./routes/categories');
 
 require('./db/mongoose');
 
@@ -26,7 +29,7 @@ app.use(
 
 app.use(express.static(path.join(__dirname, '/client/build')));
 
-app.get('/*', (req, res) => {
+app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '/client/build', 'index.html'));
 });
 
