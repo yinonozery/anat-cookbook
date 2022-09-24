@@ -1,10 +1,15 @@
 const express = require('express'),
     cors = require('cors'),
     routers = require('./routes/routes.js'),
-    path = require('path');
+    path = require('path'),
+    recipeRoutes = require('./routes/recipes');
+
 require('./db/mongoose');
 
 const app = express();
+var router = express.Router();
+router.get('/data/recipes/', recipeRoutes.getRecipes);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
@@ -19,8 +24,7 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '/client/build', 'index.html'));
 });
 
-// Folders
-app.use('/', routers);
+//app.use('/', routers);
 
 const PORT = process.env.PORT || 4000;
 const server = app.listen(PORT, () => {
