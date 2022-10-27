@@ -1,44 +1,54 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Spinner from './Spinner';
-import '../css/RecipesList.css';
 import RecipeDetailsBox from './RecipeDetailsBox';
+import SelectCategories from './SelectCategories.js';
+import '../css/RecipesList.css';
 
 const Recipes = () => {
     const [RecipesArr, setRecipesArr] = useState([]);
-    const [cat, setCat] = useState('0');
+    const [cats, setCats] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [selected, setSelected] = useState([]);
 
     useEffect(() => {
+        const getRecipes = async () => {
+            const opts = {
+                method: 'GET',
+                headers: new Headers({ 'Content-Type': 'application/json' }),
+                credentials: 'include',
+            };
+
+            await fetch(
+                `${process.env.REACT_APP_API_BASE_URL}/api/recipes/`,
+                opts
+            ).then((res) => {
+                res.text().then((text) => {
+                    text = JSON.parse(text);
+                    if (!text.isLoggedIn) {
+                        //alert(text.message);
+                        document.location.href = '/login';
+                    } else setRecipesArr(text.data);
+                });
+            });
+            setIsLoading(false);
+        };
         getRecipes();
     }, []);
-
-    // Get all recipes from db
-    const getRecipes = async () => {
-        const opts = {
-            method: 'GET',
-            headers: new Headers({ 'Content-Type': 'application/json' }),
-        };
-
-        await fetch('/data/recipes/', opts)
-            .then((res) => res.text())
-            .then((text) => {
-                setRecipesArr(JSON.parse(text));
-                console.log(JSON.parse(text));
-            });
-        setIsLoading(false);
-    };
 
     const filterRecipes = (e) => {
         if (e === '0') return RecipesArr;
         const filteredRecipesArr = RecipesArr.filter((recipe) => {
-            if (recipe.category === e) return true;
+            if (selected.length === 0) return true;
+            else if (
+                recipe.category.some((s) => {
+                    return selected.some((select) => select.label === s.name);
+                })
+            )
+                return true;
             return false;
         });
         return filteredRecipesArr;
     };
-
-    // Spinner
-    if (isLoading) return <Spinner />;
 
     return (
         <>
@@ -51,26 +61,25 @@ const Recipes = () => {
                         style={{ verticalAlign: 'middle' }}
                     />
                 </p>
-                קטגוריות: &nbsp;
-                <select
-                    onChange={(e) => setCat(e.target.value)}
-                    defaultValue={'0'}>
-                    <option value='0'>הכל</option>
-                    <option value='1'>1</option>
-                    <option value='2'>2</option>
-                    <option value='3'>3</option>
-                    <option value='4'>4</option>
-                </select>
+                <span>קטגוריות:</span>
+                <SelectCategories
+                    cat={cats}
+                    setCat={setCats}
+                    selected={selected}
+                    setSelected={setSelected}
+                />
             </div>
+
+            {isLoading && <Spinner />}
+
             <div className='recipes'>
-                {filterRecipes(cat).map((recipe, index) => {
+                {filterRecipes(cats).map((recipe, index) => {
                     return (
-                        <div className='card' key={index}>
-                            <RecipeDetailsBox
-                                recipe={recipe}
-                                showCategories={true}
-                            />
-                        </div>
+                        <RecipeDetailsBox
+                            recipe={recipe}
+                            showCategories={true}
+                            key={index}
+                        />
                     );
                 })}
             </div>

@@ -1,9 +1,9 @@
-import React from 'react';
-
 const RecipeDetailsBox = (props) => {
     if (props.recipe.category === undefined) props.recipe.category = [];
     return (
-        <>
+        <div
+            className='card'
+            onClick={() => (window.location = `/recipe/${props.recipe.rid}`)}>
             <div
                 className='card-img'
                 style={{
@@ -57,9 +57,6 @@ const RecipeDetailsBox = (props) => {
                 </div>
             </div>
             <div className='card-footer'>
-                <span className='text-title'>
-                    <a href={`/recipe/${props.recipe.rid}`}>למתכון</a>
-                </span>
                 <div className='card-button'>
                     <a
                         href={`whatsapp://send?text=${props.recipe.title}: ${window.location.host}/recipe/${props.recipe.rid}`}
@@ -89,7 +86,7 @@ const RecipeDetailsBox = (props) => {
                     </a>
                 </div>
             </div>
-        </>
+        </div>
     );
 };
 

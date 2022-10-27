@@ -19,20 +19,21 @@
 .navigation-menu ul {
     display: flex;
     padding: 0;
-}
-.navigation-menu li {
-    /* removes default disc bullet for li tags and applies margin to left & right side */
     list-style-type: none;
-    margin: 0 1rem;
 }
+
+.navigation-menu li {
+    padding: 30px;
+}
+
 .navigation-menu li a {
-    display: block;
     width: 100%;
+    text-align: center;
 }
 
 .nav-highlight {
     text-decoration: none;
-    padding: 10px;
+    padding: 5px;
 }
 
 .nav-no-highlight {
@@ -40,7 +41,15 @@
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 5px;
     text-decoration: none;
-    padding: 10px;
+    padding: 5px;
+}
+
+.nav-no-highlight-red {
+    background-color: #d9a9a956;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    text-decoration: none;
+    padding: 5px;
 }
 
 .hamburger {

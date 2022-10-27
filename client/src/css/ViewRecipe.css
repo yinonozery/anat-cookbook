@@ -122,3 +122,16 @@ hr {
     border: 2px solid #88bdd2;
     border-radius: 50px;
 }
+
+.like_button_click {
+    width: min-content;
+}
+
+.favorite_block {
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.7);
+    width: 50px;
+    height: 50px;
+    margin: 22.5px 22.5px 0 0;
+    border-radius: 20px;
+}

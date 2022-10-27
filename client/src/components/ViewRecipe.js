@@ -1,17 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Spinner from './Spinner';
 import '../css/ViewRecipe.css';
+import '../css/LikeButton.css';
 
 const ViewRecipe = () => {
     const { id } = useParams();
     const [isLoading, setIsLoading] = useState(true);
     const [recipe, setRecipe] = useState({});
+    const [isFavorite, setIsFavorite] = useState(false);
 
-    useEffect(() => {
-        // Get recipe data
-        getRecipe();
-    }, []);
+    const userInfoLS = localStorage.getItem('userInfo');
+    const userInfo = JSON.parse(userInfoLS ? userInfoLS : null);
+    const favDetails = {
+        username: userInfo.id,
+        recipe: recipe._id,
+    };
 
     const timeConvert = (n) => {
         // Convert minutes to [h:m] format
@@ -22,18 +26,75 @@ const ViewRecipe = () => {
         return hours + ':' + minutes;
     };
 
-    // Get all recipes from db
-    const getRecipe = async () => {
-        const opts = {
-            method: 'GET',
-            headers: new Headers({ 'Content-Type': 'application/json' }),
+    useEffect(() => {
+        const getRecipe = async () => {
+            // Get all recipes from db
+            const opts = {
+                method: 'GET',
+                headers: new Headers({ 'Content-Type': 'application/json' }),
+                credentials: 'include',
+            };
+
+            await fetch(
+                `${process.env.REACT_APP_API_BASE_URL}/api/recipe/${id}`,
+                opts
+            )
+                .then((res) => res.text())
+                .then((text) => {
+                    text = JSON.parse(text);
+                    if (!text.isLoggedIn) {
+                        alert(text.message);
+                        document.location.href = '/login';
+                    } else {
+                        setRecipe(text.data);
+                    }
+                    document.title = ` ${text.data.title}`;
+                });
+            setIsLoading(false);
+        };
+        getRecipe();
+    }, [id]);
+
+    useEffect(() => {
+        const getInitialStatus = async () => {
+            const opts = {
+                method: 'POST',
+                headers: new Headers({ 'Content-Type': 'application/json' }),
+                body: JSON.stringify(favDetails),
+                credentials: 'include',
+            };
+
+            await fetch(
+                `${process.env.REACT_APP_API_BASE_URL}/api/user/favorites/getInitialStatus/`,
+                opts
+            )
+                .then((res) => res.text())
+                .then((text) => {
+                    text = JSON.parse(text);
+                    console.log(text);
+                    setIsFavorite(text.isFavorite);
+                });
         };
 
-        await fetch(`/data/recipe/${id}`, opts)
+        getInitialStatus();
+    }, [favDetails]);
+
+    const addToFavoritesList = async () => {
+        const opts = {
+            method: 'POST',
+            headers: new Headers({ 'Content-Type': 'application/json' }),
+            body: JSON.stringify(favDetails),
+            credentials: 'include',
+        };
+        await fetch(
+            `${process.env.REACT_APP_API_BASE_URL}/api/user/favorites/add/`,
+            opts
+        )
             .then((res) => res.text())
-            .then((text) => {
-                setRecipe(JSON.parse(text));
-                document.title = ` ${JSON.parse(text).title}`;
+            .then((result) => {
+                result = JSON.parse(result);
+                document.getElementById('resulttemp').innerText =
+                    result.message;
             });
         setIsLoading(false);
     };
@@ -42,11 +103,24 @@ const ViewRecipe = () => {
     return (
         <>
             <div className='recipe_details_bg'>
+                {/* Add to favorites */}
+                <div className='favorite_block'></div>
+                <div
+                    onClick={() => {
+                        setIsFavorite(!isFavorite);
+                        addToFavoritesList();
+                    }}
+                    className={
+                        isFavorite
+                            ? 'heart is_animating heart_clicked'
+                            : 'heart'
+                    }></div>
+
                 <div className='recipe_details_content'>
                     <h1>{recipe.title}</h1>
                     <hr />
                     <p>{recipe.summary}</p>
-                    <p>צפיות: {recipe.views}</p>
+                    <p id='resulttemp'></p>
                     <center>
                         <img src={recipe.picture_url} alt='' />
                     </center>

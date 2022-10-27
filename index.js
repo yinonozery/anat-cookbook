@@ -1,38 +1,29 @@
-const express = require('express'),
+const bodyParser = require('body-parser'),
+    express = require('express'),
     cors = require('cors'),
-    path = require('path'),
-    recipeRoutes = require('./routes/recipes'),
-    //ingredientRoutes = require('./ingredients'),
-    categoriesRoutes = require('./routes/categories');
+    jwt = require('jsonwebtoken'),
+    cookieParser = require('cookie-parser'),
+    app = express(),
+    dotenv = require('dotenv').config(),
+    routers = require('./routes/routes');
 
+// Mongoose connection
 require('./db/mongoose');
 
-const app = express();
-
-// Recipes
-app.get('/data/recipe/:id', recipeRoutes.getRecipe);
-app.get('/data/recipes/', recipeRoutes.getRecipes);
-app.post('/data/recipe/', recipeRoutes.createRecipe);
-
-// Categories
-app.get('/data/categories/', categoriesRoutes.getCategories);
-app.get('/data/categories/:name', categoriesRoutes.getCategory);
-
+// Middleware
 app.use(express.json());
+app.use(cookieParser());
+app.use(bodyParser.json(), bodyParser.urlencoded({ extended: false }));
 app.use(express.urlencoded({ extended: true }));
 app.use(
     cors({
-        origin: '*',
+        origin: process.env.CLIENT_URL,
+        credentials: true,
     })
 );
+app.use('/', routers);
 
-app.use(express.static(path.join(__dirname, '/client/build')));
-
-app.get('/*', function (req, res) {
-    res.sendFile(path.join(__dirname, '/client/build', 'index.html'));
-  });
-
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 const server = app.listen(PORT, () => {
-    console.log('listening on port %s...', server.address().port);
+    console.log(`Listening to port ${server.address().port}...`);
 });

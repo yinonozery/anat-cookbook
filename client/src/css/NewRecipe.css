@@ -1,15 +1,15 @@
 /* Form */
-form {
+.newRecipe form {
     display: flex;
     flex-direction: column;
     box-shadow: 0 1px 5px 1px #eaeaea;
-    width: 50%;
+    width: 90%;
     margin: 0 auto;
     background-color: white;
     padding: 1em;
 }
 
-textarea {
+.newRecipe textarea {
     resize: none;
 }
 

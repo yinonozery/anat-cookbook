@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { MultiSelect } from 'react-multi-select-component';
+import { useState, useRef, useEffect } from 'react';
+import SelectCategories from './SelectCategories';
 import defaultPicture from '../assets/no-image-available.png';
 import '../css/NewRecipe.css';
 
@@ -9,11 +9,21 @@ const NewRecipe = () => {
     const [cats, setCats] = useState([]);
     const [selected, setSelected] = useState([]);
 
+    const measureUnits = [
+        'ק"ג',
+        'גרם',
+        'מ"ג',
+        'ליטר',
+        'מ"ל',
+        'כוס מדידה',
+        'כף',
+        'כפית',
+    ];
+
     const ingQuantity = useRef(0);
     const ingUnit = useRef('0');
     const ingName = useRef('');
     const methodsCount = useRef(1);
-
     const formDataInitial = {
         title: '',
         summary: '',
@@ -28,23 +38,7 @@ const NewRecipe = () => {
         author: '',
         views: 0,
     };
-
     const [formData, setFormData] = useState(formDataInitial);
-
-    useEffect(() => {
-        const opts = {
-            method: 'GET',
-            headers: new Headers({ 'Content-Type': 'application/json' }),
-        };
-
-        fetch('http://localhost:3001/categories/', opts)
-            .then((res) => res.text())
-            .catch((e) => alert(e))
-            .then((cats) => {
-                setCats(JSON.parse(cats));
-            });
-    }, []);
-
     const catsOptions = [];
     cats.map((cat) => {
         return catsOptions.push({ label: `${cat.name}`, value: `${cat._id}` });
@@ -58,9 +52,7 @@ const NewRecipe = () => {
             });
             return;
         }
-
         setFormData({ ...formData, [e.target.id]: e.target.value });
-        console.log(selected);
     };
 
     const addRecipe = async () => {
@@ -79,9 +71,9 @@ const NewRecipe = () => {
             body: JSON.stringify(formData),
         };
 
-        await fetch('http://localhost:3001/recipe/', opts)
+        await fetch(`${process.env.REACT_APP_API_BASE_URL}/recipe/`, opts)
             .then((res) => res.text())
-            .catch((e) => alert(e))
+            .catch((e) => console.log(e))
             .then(() => {
                 window.location.replace(`/success/${formData.title}`);
             });
@@ -96,7 +88,6 @@ const NewRecipe = () => {
         ingQuantity.current.value = '';
         ingUnit.current.value = '';
         ingName.current.value = '';
-        setFormData({ ...formData, ingredients: ingredientsList });
     }, [ingredientsList]);
 
     const addIngredient = () => {
@@ -160,10 +151,6 @@ const NewRecipe = () => {
 
         methodsCount.current = methodsCount.current + 1;
         document.getElementById(`addMethod`).value = '';
-    };
-
-    const customValueRenderer = (selected, _options) => {
-        return selected.length ? '' : 'בחר/י קטגוריות';
     };
 
     return (
@@ -277,53 +264,12 @@ const NewRecipe = () => {
 
                 {/* Category */}
                 <div className='MultiSelect'>
-                    <MultiSelect
-                        options={catsOptions}
-                        value={selected}
-                        onChange={setSelected}
-                        labelledBy='Select'
-                        valueRenderer={customValueRenderer}
-                        hasSelectAll={false}
-                        selectionType='tags'
-                        disableSearch={true}
-                        overrideStrings={{
-                            allItemsAreSelected: 'כל הקטגוריות נבחרו.',
-                            clearSelected: 'מחיקת מסומנים',
-                            noOptions: 'אין קטגוריות',
-                            selectAll: 'בחר/י הכל',
-                            selectSomeItems: 'בחר/י קטגוריות',
-                        }}
-                        className='dark'
+                    <SelectCategories
+                        cat={cats}
+                        setCat={setCats}
+                        selected={selected}
+                        setSelected={setSelected}
                     />
-                </div>
-
-                <div className='field__categories'>
-                    {/* <select
-                        id='category'
-                        className='field__input'
-                        placeholder=''
-                        onChange={changeHandler}> */}
-                    {/* {cats.map((cat, index) => {
-                        const catObj = {
-                            name: cat.name,
-                            id: cat._id,
-                        };
-
-                        return (
-                            <p key={index}>
-                                <label key={index} htmlFor={cat._id}>
-                                    {cat.name}
-                                </label>
-                                <input
-                                    type='checkbox'
-                                    value={JSON.stringify(catObj)}
-                                    key={cat.name}
-                                    id={cat._id}
-                                    onChange={changeHandler}
-                                />
-                            </p>
-                        );
-                    })} */}
                 </div>
 
                 {/* Ingredients */}
@@ -385,9 +331,13 @@ const NewRecipe = () => {
                                 <option value='0' disabled>
                                     יחידת מידה
                                 </option>
-                                <option value='גרם'>גרם</option>
-                                <option value='כפיות'>כפיות</option>
-                                <option value='עוד'>עוד</option>
+                                {measureUnits.map((unit, index) => {
+                                    return (
+                                        <option key={index} value={unit}>
+                                            {unit}
+                                        </option>
+                                    );
+                                })}
                             </select>
                         </div>
 
@@ -465,7 +415,6 @@ const NewRecipe = () => {
                     הוסף
                 </button>
             </form>
-            
         </div>
     );
 };

@@ -22,7 +22,7 @@ var recipesSchema = new mongoose.Schema(
             },
         ],
         instructions: [{ type: String, required: false }],
-        author: { type: String, required: false },
+        author: { type: mongoose.Schema.ObjectId, ref: 'users' },
         views: { type: Number },
         createdOn: { type: Date, default: Date.now() },
     },

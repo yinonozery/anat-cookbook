@@ -7,14 +7,14 @@ module.exports = {
         Recipe.findOneAndUpdate({ rid: req.params.id }, { $inc: { views: 1 } })
             .populate('category')
             .then((recipe) => {
-                res.send(recipe);
+                res.json({ data: recipe, isLoggedIn: true });
             })
             .catch((e) => res.status(500).send());
     },
     getRecipes: (req, res) => {
         Recipe.find()
             .populate('category')
-            .then((recipes) => res.send(recipes))
+            .then((recipes) => res.json({ data: recipes, isLoggedIn: true }))
             .catch((e) => res.status(500).send());
     },
 

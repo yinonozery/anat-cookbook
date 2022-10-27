@@ -23,7 +23,7 @@
     border-radius: 20px;
     background-color: white;
     padding: 5px 20px;
-    width: fit-content;
+    width: 400px;
     margin: 0 auto;
     margin-bottom: 30px;
 }
@@ -77,6 +77,9 @@
     border: 3px solid #eaeaea;
 }
 
+.card a {
+    text-decoration: none;
+}
 .recipe-views {
     background-color: red;
     height: 20px;
@@ -87,10 +90,8 @@
     width: fit-content;
     padding-left: 25px;
     height: 0;
-    /* border-bottom: 15px solid #a9d9b9;
-    border-top: 15px solid #a2ca99; */
-    border-bottom: 15px solid rgb(188, 78, 95);
-    border-top: 15px solid #bc001b;
+    border-bottom: 15px solid rgb(171, 82, 95);
+    border-top: 15px solid #a90019;
     border-left: 15px solid transparent;
     float: right;
     margin-bottom: 20px;
