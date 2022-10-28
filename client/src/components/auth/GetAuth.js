@@ -19,6 +19,7 @@ const GetAuth = () => {
                 .then((res) => res.text())
                 .then((text) => {
                     const result = JSON.parse(text);
+                    console.log(result);
                     dispatch(login(result?.userInfo));
                     result?.message === 'Authorized'
                         ? localStorage.setItem(
