@@ -37,10 +37,11 @@ module.exports = {
         if (!token) return res.json({ message: err });
         return res
             .cookie('token', token, {
-                maxAge: 2 * 60 * 60 * 1000,
-                httpOnly: true,
+                //maxAge: 2 * 60 * 60 * 1000,
+                //httpOnly: true,
                 secure: process.env.NODE_ENV === 'development' ? false : true, // Only use HTTPS
-                path: '/',
+                //path: '/',
+                sameSite: false,
                 //sameSite: 'strict', // Only send cookie to this site
             })
             .status(200)
