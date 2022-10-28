@@ -25,11 +25,11 @@ app.use(
 
 app.use(express.static(path.join(__dirname, '/client/build')));
 
-app.get('', (_, res) => {
-    res.sendFile(path.join(__dirname, '/client/build', 'index.html'));
-}); 
-
 app.use('/', routers);
+
+app.get('*', (_, res) => {
+    res.sendFile(path.join(__dirname, '/client/build', 'index.html'));
+});
 
 const PORT = process.env.PORT;
 const server = app.listen(PORT, () => {
