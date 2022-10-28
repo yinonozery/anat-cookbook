@@ -28,9 +28,9 @@ const verifyJWT = (req, res, next) => {
         });
 };
 
-app.get('/', function (req, res) {
-    res.sendFile(path.join(__dirname, '/build', 'index.html'));
-});
+// app.get('/', function (req, res) {
+//     res.sendFile(path.join(__dirname, '/build', 'index.html'));
+// });
 
 // Recipes
 router.get('/api/recipe/:id', verifyJWT, recipeRoutes.getRecipe);

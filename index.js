@@ -22,11 +22,11 @@ app.use(
     })
 );
 
-app.use(express.static(path.join(__dirname, '/client/build')));
+// app.use(express.static(path.join(__dirname, '/client/build')));
 
 app.use('/', routers);
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT;
 const server = app.listen(PORT, () => {
     console.log(`Listening to port ${server.address().port}...`);
 });
