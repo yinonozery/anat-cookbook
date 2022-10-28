@@ -5,7 +5,7 @@ const express = require('express'),
     featuresRoutes = require('./features.js'),
     router = express.Router(),
     jwt = require('jsonwebtoken');
-
+    
 const verifyJWT = (req, res, next) => {
     const token = req.cookies.token;
     if (token) {
@@ -28,9 +28,6 @@ const verifyJWT = (req, res, next) => {
         });
 };
 
-router.get('/*', function (req, res) {
-    res.sendFile(path.join(__dirname, '/build', 'index.html'));
-});
 
 // Recipes
 router.get('/api/recipe/:id', verifyJWT, recipeRoutes.getRecipe);
