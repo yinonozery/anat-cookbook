@@ -41,7 +41,7 @@ module.exports = {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'development' ? false : true, // Only use HTTPS
                 path: '/',
-                sameSite: 'strict', // Only send cookie to this site
+                //sameSite: 'strict', // Only send cookie to this site
             })
             .status(200)
             .json({
