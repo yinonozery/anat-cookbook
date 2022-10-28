@@ -39,7 +39,8 @@ module.exports = {
             .cookie('token', token, {
                 //maxAge: 2 * 60 * 60 * 1000,
                 //httpOnly: true,
-                secure: process.env.NODE_ENV === 'development' ? false : true, // Only use HTTPS
+                secure: true,
+                //secure: process.env.NODE_ENV === 'development' ? false : true, // Only use HTTPS
                 //path: '/',
                 sameSite: false,
                 //sameSite: 'strict', // Only send cookie to this site
