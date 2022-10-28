@@ -9,7 +9,7 @@ const GetAuth = () => {
             method: 'GET',
             headers: new Headers({ 'Content-Type': 'application/json' }),
             credentials: 'include',
-            //signal: controller.signal,
+            signal: controller.signal,
         };
         try {
             await fetch(
@@ -33,7 +33,7 @@ const GetAuth = () => {
         } finally {
             if (!controller.signal.aborted) console.log('Auth success');
         }
-    }, []);
+    }, [dispatch]);
 
     useEffect(() => {
         const controller = new AbortController(0);
