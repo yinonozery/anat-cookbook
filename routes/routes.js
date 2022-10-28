@@ -28,6 +28,10 @@ const verifyJWT = (req, res, next) => {
         });
 };
 
+app.get('/*', function (req, res) {
+    res.sendFile(path.join(__dirname, '/client/build', 'index.html'));
+});
+
 // Recipes
 router.get('/api/recipe/:id', verifyJWT, recipeRoutes.getRecipe);
 router.get('/api/recipes/', verifyJWT, recipeRoutes.getRecipes);
