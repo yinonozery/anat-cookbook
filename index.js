@@ -5,7 +5,8 @@ const bodyParser = require('body-parser'),
     cookieParser = require('cookie-parser'),
     app = express(),
     dotenv = require('dotenv').config(),
-    routers = require('./routes/routes');
+    routers = require('./routes/routes'),
+    path = require('path');
 
 // Mongoose connection
 require('./db/mongoose');
@@ -22,8 +23,8 @@ app.use(
     })
 );
 
-// app.use(express.static(path.join(__dirname, '/client/build')));
-
+app.use(express.static(path.join(__dirname, '/client/build')));
+ 
 app.use('/', routers);
 
 const PORT = process.env.PORT;
