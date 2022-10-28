@@ -35,11 +35,11 @@ module.exports = {
             { expiresIn: process.env.JWT_EXP_TIME }
         );
         if (!token) return res.json({ message: err });
-        console.log(token);
+
         return res
             .cookie('token', token, {
                 maxAge: 2 * 60 * 60 * 1000,
-                httpOnly: true,
+                //httpOnly: true,
                 secure: true,
                 //secure: process.env.NODE_ENV === 'development' ? false : true, // Only use HTTPS
                 //path: '/',
