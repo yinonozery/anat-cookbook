@@ -28,7 +28,7 @@ const verifyJWT = (req, res, next) => {
         });
 };
 
-router.get('/', function (req, res) {
+router.get('/*', function (req, res) {
     res.sendFile(path.join(__dirname, '/build', 'index.html'));
 });
 
