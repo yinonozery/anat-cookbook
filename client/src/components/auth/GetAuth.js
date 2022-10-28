@@ -9,7 +9,7 @@ const GetAuth = () => {
             method: 'GET',
             headers: new Headers({ 'Content-Type': 'application/json' }),
             credentials: 'include',
-            signal: controller.signal,
+            //signal: controller.signal,
         };
         try {
             await fetch(
