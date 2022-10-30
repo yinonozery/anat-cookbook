@@ -7,6 +7,7 @@ const express = require('express'),
     jwt = require('jsonwebtoken'),
     cookieParser = require('cookie-parser');
 
+const app = express();
 app.use(cookieParser());
 
 const verifyJWT = (req, res, next) => {
