@@ -84,7 +84,8 @@ const NavBar = () => {
                                 <li key={index}>
                                     <a
                                         href={
-                                            process.env.CLIENT_URL +
+                                            'https://' +
+                                            window.location.host +
                                             `/${header.link}`
                                         }
                                         className={
