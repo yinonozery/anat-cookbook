@@ -49,7 +49,7 @@ module.exports = {
                 message: `${dbUser.username} התחברת בהצלחה, הינך מועבר לאתר`,
                 success: true,
                 userInfo: { username: dbUser.username, email: dbUser.email },
-                token: 'Bearer ' + token,
+                //token: 'Bearer ' + token,
             });
     },
     register: async (req, res) => {
