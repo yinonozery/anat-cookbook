@@ -45,10 +45,9 @@ const Login = () => {
                 } else {
                     // successful login
                     setMsg(result);
-                    console.log(text.cookie);
-                    // setInterval(() => {
-                    //     window.location.href = '/recipes';
-                    // }, 2000);
+                    setInterval(() => {
+                        window.location.href = '/recipes';
+                    }, 2000);
                 }
                 setMsg(result);
             });
