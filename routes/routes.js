@@ -4,8 +4,11 @@ const express = require('express'),
     categoriesRoutes = require('./categories'),
     featuresRoutes = require('./features.js'),
     router = express.Router(),
-    jwt = require('jsonwebtoken');
-    
+    jwt = require('jsonwebtoken'),
+    cookieParser = require('cookie-parser');
+
+app.use(cookieParser());
+
 const verifyJWT = (req, res, next) => {
     const token = req.cookies.token;
     if (token) {
@@ -27,7 +30,6 @@ const verifyJWT = (req, res, next) => {
             success: false,
         });
 };
-
 
 // Recipes
 router.get('/api/recipe/:id', verifyJWT, recipeRoutes.getRecipe);
