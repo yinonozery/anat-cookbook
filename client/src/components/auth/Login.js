@@ -8,7 +8,7 @@ const Login = () => {
     const password = useRef('');
 
     const [isLoading, setIsLoading] = useState(false);
-    const [Msg, setMsg] = useState({});
+    const [msg, setMsg] = useState();
 
     const { userInfo } = useSelector((state) => state.user);
 
@@ -38,18 +38,16 @@ const Login = () => {
             .then((res) => res.text())
             .then((text) => {
                 const result = JSON.parse(text);
-                if (!result.token) {
+                if (!result.success) {
                     // unsuccessful login
-                    setMsg(result);
                     setIsLoading(false);
                 } else {
                     // successful login
-                    setMsg(result);
-                    setInterval(() => {
+                    window.setTimeout(() => {
                         window.location = '/recipes';
                     }, 2000);
                 }
-                setMsg(result);
+                setMsg(result?.message);
             });
     };
 
@@ -76,14 +74,15 @@ const Login = () => {
                     id='password'
                     required
                 />
+
                 <p
                     id='msg'
                     className={
-                        Msg?.success
+                        msg?.success
                             ? 'login_msg success_msg'
                             : 'login_msg failed_msg'
                     }>
-                    {Msg.message}
+                    {msg}
                 </p>
                 {isLoading ? (
                     <Spinner />
