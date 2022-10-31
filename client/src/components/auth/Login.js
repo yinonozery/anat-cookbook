@@ -13,7 +13,7 @@ const Login = () => {
     const { userInfo } = useSelector((state) => state.user);
 
     useEffect(() => {
-        if (userInfo?.id) document.location.href = '/recipes';
+        if (userInfo?.id) window.location = '/recipes';
     }, [userInfo]);
 
     const handleSubmit = async (e) => {
@@ -46,7 +46,7 @@ const Login = () => {
                     // successful login
                     setMsg(result);
                     setInterval(() => {
-                        document.location.href = '/recipes';
+                        window.location = '/recipes';
                     }, 2000);
                 }
                 setMsg(result);
