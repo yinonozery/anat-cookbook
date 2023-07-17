@@ -5,6 +5,7 @@
     "node": "18.x",
     "npm": "8.x"
   },
+  "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -28,6 +29,5 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.20"
-  },
-  "description": ""
+  }
 }
