@@ -1,0 +1,32 @@
+.heart {
+    cursor: pointer;
+    height: 75px;
+    width: 75px;
+    background-image: url('https://abs.twimg.com/a/1446542199/img/t1/web_heart_animation.png');
+    background-position: left;
+    background-repeat: no-repeat;
+    background-size: 2900%;
+    margin: 10px 10px 0 0;
+    position: absolute;
+}
+
+.heart:hover {
+    background-position: right;
+}
+
+.is_animating {
+    animation: heart-burst 0.8s steps(28) 1;
+}
+
+.heart_clicked {
+    background-position: right;
+}
+
+@keyframes heart-burst {
+    from {
+        background-position: left;
+    }
+    to {
+        background-position: right;
+    }
+}
