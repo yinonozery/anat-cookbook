@@ -3,9 +3,9 @@ const bodyParser = require('body-parser'),
     cors = require('cors'),
     cookieParser = require('cookie-parser'),
     app = express(),
-    // dotenv = require('dotenv').config(),
-    routers = require('./routes/routes');
-    // path = require('path');
+    dotenv = require('dotenv').config(),
+    routers = require('./routes/routes'),
+    path = require('path');
 
 // Mongoose connection
 require('./db/mongoose');
@@ -17,7 +17,7 @@ app.use(bodyParser.json(), bodyParser.urlencoded({ extended: false }));
 app.use(express.urlencoded({ extended: true }));
 app.use(
     cors({
-        origin: '*',
+        origin: process.env.CLIENT_URL,
         credentials: true,
     })
 );
